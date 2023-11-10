@@ -9,6 +9,7 @@ function setup() {
   if (fileInputElement === null) return;
 
   fileInputElement.addEventListener("input", async ({ currentTarget }) => {
+    fileInputElement.parentElement?.setAttribute("aria-busy", "true");
     if (currentTarget === null) return;
     const files = (currentTarget as HTMLInputElement).files;
     if (files === null) return;
@@ -31,6 +32,7 @@ function setup() {
 
     zip.generateAsync({ type: "blob" }).then(function (blob) {
       saveAs(blob, "qr-codes.zip");
+      fileInputElement.parentElement?.removeAttribute("aria-busy");
     });
   });
 }
